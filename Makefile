@@ -1,5 +1,5 @@
 up:
-	docker compose up -d
+	docker compose up -d && docker logs --tail 100 -f test-api-sfox
 
 down:
 	docker compose down
