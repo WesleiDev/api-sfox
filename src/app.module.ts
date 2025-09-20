@@ -5,9 +5,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { AppDataSource } from './config/database.config';
+import { ConfigModule } from '@nestjs/config';
+import loaderYml from './config/loader-yml';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      ignoreEnvFile: true,
+      load: [loaderYml],
+    }),
     TypeOrmModule.forRootAsync({
       dataSourceFactory: async () => {
         if (!AppDataSource.isInitialized) {

@@ -2,6 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserDto, UserResponseDto } from '../dto';
 import { UserRepository } from '../repository/user.repository';
 import { UserMapper } from '../mappers';
+import { UserEntity } from '../entities/user.entity';
 
 @Injectable()
 export class UserService {
@@ -18,10 +19,14 @@ export class UserService {
   }
 
   async checkCustomerAlreadyCreate(mail: string) {
-    const customer = await this.userRepository.findByMail(mail);
+    const customer = await this.findByMail(mail);
 
     if (customer) {
       throw new ConflictException(`Customer with mail ${mail} already exist!`);
     }
+  }
+
+  findByMail(mail): Promise<UserEntity | null> {
+    return this.userRepository.findByMail(mail);
   }
 }
