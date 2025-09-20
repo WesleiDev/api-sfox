@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+
+  api:
+    container_name: test-api-sfox
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3001:3001
+    volumes:
+      - ./:/app
+    networks:
+      - test-api-sfox
+    depends_on:
+      database:
+        condition: service_healthy
+  database:
+    container_name: database-test-api-sfox
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: test-api-sfox
+      MYSQL_USER: user-api-sfox
+      MYSQL_PASSWORD: password-sfox
+    ports: 
+      - 3319:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - test-api-sfox
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+
+networks:
+  test-api-sfox:
+    driver: bridge
+volumes:
+  mysql_data:
