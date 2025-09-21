@@ -8,5 +8,5 @@ export class AuthUserDto {
   lastName: string;
   fullname: string;
   mail: string;
-  account: AccountResponseDto;
+  account: AccountResponseDto | null;
 }

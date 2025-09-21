@@ -37,6 +37,27 @@ services:
       interval: 5s
       timeout: 5s
       retries: 20
+  database-e2e:
+    container_name: e2e-database-test-api-sfox
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: e2e-test-api-sfox
+      MYSQL_USER: user-api-sfox
+      MYSQL_PASSWORD: password-sfox
+    ports: 
+      - 3320:3306
+    volumes:
+      - mysql_data_e2e:/var/lib/mysql
+      - ./docker/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - test-api-sfox
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 2
 
 
 networks:
@@ -44,3 +65,4 @@ networks:
     driver: bridge
 volumes:
   mysql_data:
+  mysql_data_e2e:

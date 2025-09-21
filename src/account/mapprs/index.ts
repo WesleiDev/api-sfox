@@ -5,7 +5,10 @@ import { ICreateTransaction, IPerformeOperation } from '../interfaces';
 import { TransactionEntity } from '../entities/transaction.entity';
 
 export class AccountMapper {
-  static mapAccountResponse(account: AccountEntity): AccountResponseDto {
+  static mapAccountResponse(account: AccountEntity): AccountResponseDto | null {
+    if (!account) {
+      return null;
+    }
     return {
       id: account.id,
       accountNumber: account.accountNumber,

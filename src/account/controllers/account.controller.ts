@@ -38,14 +38,14 @@ export class AccountController {
 
   @Post('/deposit')
   @UseGuards(AuthGuard('jwt'))
-  @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.CREATED)
   deposit(@User() user: UserResponseDto, @Body() data: DepositDto) {
     return this.accountService.deposit(user.id, data);
   }
 
   @Post('/withdraw')
   @UseGuards(AuthGuard('jwt'))
-  @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.CREATED)
   withdraw(@User() user: UserResponseDto, @Body() data: DepositDto) {
     return this.accountService.withdraw(user.id, data);
   }
