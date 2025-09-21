@@ -29,4 +29,13 @@ export class UserService {
   findByMail(mail): Promise<UserEntity | null> {
     return this.userRepository.findByMail(mail);
   }
+
+  findById(id, relations: string[] = []): Promise<UserEntity | null> {
+    return this.userRepository.findOne({
+      where: {
+        id,
+      },
+      relations,
+    });
+  }
 }

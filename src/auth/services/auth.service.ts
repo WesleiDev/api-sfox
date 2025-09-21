@@ -3,7 +3,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { SignDto } from '../dto';
+import { SignDto, SignupDto } from '../dto';
 import { UserService } from '@/user/services/user.service';
 import { AuthUtils } from '@/common/utils';
 import { UserEntity } from '@/user/entities/user.entity';
@@ -55,5 +55,9 @@ export class AuthService {
       token: accessToken,
       expiresIn: exp,
     });
+  }
+
+  signup(data: SignupDto) {
+    return this.userService.register(data);
   }
 }

@@ -1,6 +1,7 @@
 import { BaseEntity } from '@/common/database';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { AccountEntity } from '@/account/entities/account.entity';
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -20,4 +21,7 @@ export class UserEntity extends BaseEntity {
   @Column()
   @Exclude({ toPlainOnly: true })
   password: string;
+
+  @OneToOne(() => AccountEntity, (account) => account.user)
+  account: AccountEntity;
 }

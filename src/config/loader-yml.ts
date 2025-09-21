@@ -32,7 +32,5 @@ export default function () {
 
   const ymlConfig = yaml.load(fileContent) as Record<string, any>;
 
-  console.log({ ymlConfig });
-
   return validate(ymlConfig);
 }

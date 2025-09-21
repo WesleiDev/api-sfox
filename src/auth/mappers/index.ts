@@ -1,5 +1,7 @@
 import { UserEntity } from '@/user/entities/user.entity';
 import { IJWTPayloadData } from '../interfaces';
+import { AuthUserDto } from '../dto';
+import { AccountMapper } from '@/account/mapprs';
 
 type ParamMapUserTokenResponse = {
   token: string;
@@ -18,6 +20,19 @@ export class AuthMapper {
     return {
       accessToken: data.token,
       expiresIn: data.expiresIn,
+    };
+  }
+
+  static mapAuthUser(user: UserEntity): AuthUserDto {
+    return {
+      id: user.id,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      fullname: `${user.firstName} ${user.lastName}`,
+      mail: user.mail,
+      account: AccountMapper.mapAccountResponse(user.account),
     };
   }
 }

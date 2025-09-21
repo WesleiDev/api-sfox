@@ -1,31 +1,19 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-import { AppDataSource } from './config/database.config';
-import { ConfigModule } from '@nestjs/config';
-import loaderYml from './config/loader-yml';
+import { AccountModule } from './account/account.module';
+import { DatabaseModule } from './common/database/database.module';
+import { AppConfigModule } from './config/config.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      ignoreEnvFile: true,
-      load: [loaderYml],
-    }),
-    TypeOrmModule.forRootAsync({
-      dataSourceFactory: async () => {
-        if (!AppDataSource.isInitialized) {
-          await AppDataSource.initialize();
-        }
-        return AppDataSource;
-      },
-      useFactory: () => ({}),
-    }),
+    AppConfigModule.forRoot(),
+    DatabaseModule.forRoot(),
     UserModule,
     AuthModule,
+    AccountModule,
   ],
   controllers: [AppController],
   providers: [AppService],
