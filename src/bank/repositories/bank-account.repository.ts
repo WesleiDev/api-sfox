@@ -1,41 +1,41 @@
 import { BaseRepository } from '@/common/database';
-import { AccountEntity } from '../entities/account.entity';
+import { BankAccountEntity } from '../entities/bank-account.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Money } from '@/common/utils/money.utils';
 
 @Injectable()
-export class AccountRepository extends BaseRepository<AccountEntity> {
+export class BankAccountRepository extends BaseRepository<BankAccountEntity> {
   constructor(
-    @InjectRepository(AccountEntity)
-    private readonly repository: Repository<AccountEntity>,
+    @InjectRepository(BankAccountEntity)
+    private readonly repository: Repository<BankAccountEntity>,
   ) {
     super(repository);
   }
 
-  decrement(accountId: string, amount: number) {
+  decrement(id: string, amount: number) {
     return this.repo
-      .createQueryBuilder('transaction')
+      .createQueryBuilder('bankAccount')
       .update()
       .set({
         balance: () => `balance - :amount`,
       })
-      .where('id =:id', { id: accountId })
+      .where('id =:id', { id })
       .setParameters({
         amount: Money.fromDollars(amount).toCents(),
       })
       .execute();
   }
 
-  increment(accountId: string, amount: number) {
+  increment(id: string, amount: number) {
     return this.repo
-      .createQueryBuilder('transaction')
+      .createQueryBuilder('bankAccount')
       .update()
       .set({
         balance: () => `balance + :amount`,
       })
-      .where('id =:id', { id: accountId })
+      .where('id =:id', { id })
       .setParameters({
         amount: Money.fromDollars(amount).toCents(),
       })

@@ -34,4 +34,8 @@ export class Money {
   toDollars() {
     return MoneyUtils.toDollars(this.cents);
   }
+
+  isLess(cents: number): boolean {
+    return cents < this.cents;
+  }
 }

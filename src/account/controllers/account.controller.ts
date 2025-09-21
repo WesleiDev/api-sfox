@@ -1,6 +1,7 @@
 import { User } from '@/auth/decorators/user.decorator';
 import { UserResponseDto } from '@/user/dto';
 import {
+  Body,
   Controller,
   HttpCode,
   HttpStatus,
@@ -9,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AccountService } from '../services/account.service';
+import { DepositDto } from '../dto';
 
 @Controller('account')
 export class AccountController {
@@ -32,5 +34,19 @@ export class AccountController {
   @HttpCode(HttpStatus.OK)
   activateAccount(@User() user: UserResponseDto) {
     return this.accountService.activateAccount(user.id);
+  }
+
+  @Post('/deposit')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  deposit(@User() user: UserResponseDto, @Body() data: DepositDto) {
+    return this.accountService.deposit(user.id, data);
+  }
+
+  @Post('/withdraw')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  withdraw(@User() user: UserResponseDto, @Body() data: DepositDto) {
+    return this.accountService.withdraw(user.id, data);
   }
 }

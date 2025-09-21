@@ -7,11 +7,23 @@ import { AccountEntity, EAccountStatus } from '../entities/account.entity';
 import { AccountRepository } from '../repositories/account.repository';
 import { StringUtils } from '@/common/utils/string.utils';
 import { AccountMapper } from '../mapprs';
+import { DepositDto } from '../dto';
+import type { IPerformeOperation } from '../interfaces';
+import { EOperationTypeTransaction } from '../etc/types';
+import { TransactionService } from './transaction.service';
+import { BankAccountService } from '@/bank/services/bank-account.service';
+import { Money } from '@/common/utils/money.utils';
+import { Transactional } from 'typeorm-transactional';
 
 @Injectable()
 export class AccountService {
-  constructor(private readonly accountRepository: AccountRepository) {}
+  constructor(
+    private readonly accountRepository: AccountRepository,
+    private readonly transactionService: TransactionService,
+    private readonly bankAccountService: BankAccountService,
+  ) {}
 
+  @Transactional()
   async create(userId: string) {
     await this._checkAccountAlreadyCreated(userId);
     const account = await this._createUniqueAccount(userId);
@@ -35,6 +47,7 @@ export class AccountService {
     }
   }
 
+  @Transactional()
   private async _createUniqueAccount(
     userId: string,
   ): Promise<AccountEntity | null> {
@@ -78,6 +91,7 @@ export class AccountService {
     });
   }
 
+  @Transactional()
   async closeAccount(userId: string) {
     const account = await this.findByUserId(userId);
 
@@ -92,18 +106,21 @@ export class AccountService {
     await this._setAccountToInactive(account.id);
   }
 
+  @Transactional()
   private async _setAccountToInactive(accountId: string) {
     await this.accountRepository.update(accountId, {
       status: EAccountStatus.INACTIVE,
     });
   }
 
+  @Transactional()
   private async _setAccountToActive(accountId: string) {
     await this.accountRepository.update(accountId, {
       status: EAccountStatus.ACTIVE,
     });
   }
 
+  @Transactional()
   async activateAccount(userId: string) {
     const account = await this.findByUserId(userId);
 
@@ -116,5 +133,86 @@ export class AccountService {
     }
 
     await this._setAccountToActive(account.id);
+  }
+
+  @Transactional()
+  decrementAccount(accountId: string, amount: number) {
+    return this.accountRepository.decrement(accountId, amount);
+  }
+
+  @Transactional()
+  incrementAccount(accountId: string, amount: number) {
+    return this.accountRepository.increment(accountId, amount);
+  }
+
+  @Transactional()
+  async deposit(userId: string, data: DepositDto) {
+    const account = await this.findByUserId(userId);
+
+    if (!account) {
+      throw new UnprocessableEntityException(
+        'You do not have an account to do this deposit',
+      );
+    }
+
+    return this.performOperation({
+      account,
+      amount: data.amount,
+      userId,
+      type: EOperationTypeTransaction.INCREMENT,
+    });
+  }
+
+  @Transactional()
+  async withdraw(userId: string, data: DepositDto) {
+    const account = await this.findByUserId(userId);
+
+    if (!account) {
+      throw new UnprocessableEntityException(
+        'You do not have an account to do this withdraw',
+      );
+    }
+
+    return this.performOperation({
+      account,
+      amount: data.amount,
+      userId,
+      type: EOperationTypeTransaction.DECREMENT,
+    });
+  }
+
+  @Transactional()
+  async performOperation(data: IPerformeOperation) {
+    const { account, amount } = data;
+
+    const payloadTransaction =
+      AccountMapper.mapPayloadToCreateTransaction(data);
+
+    const transaction =
+      await this.transactionService.createTransaction(payloadTransaction);
+
+    if (data.type === EOperationTypeTransaction.DECREMENT) {
+      const hasInsufficientFunds = Money.fromDollars(amount).isLess(
+        account.balance,
+      );
+
+      if (hasInsufficientFunds) {
+        throw new BadRequestException(
+          `You has no sufficient funds to operate this withdraw`,
+        );
+      }
+
+      await Promise.all([
+        this.decrementAccount(account.id, amount),
+        this.bankAccountService.decrement(amount),
+      ]);
+    } else {
+      await Promise.all([
+        this.incrementAccount(account.id, amount),
+        this.bankAccountService.increment(amount),
+      ]);
+    }
+
+    return AccountMapper.mapTransactionResponse(transaction);
   }
 }
