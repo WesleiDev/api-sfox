@@ -20,4 +20,7 @@ export class TransactionEntity extends BaseEntity {
     nullable: false,
   })
   amount: number;
+
+  @Column()
+  description: string;
 }

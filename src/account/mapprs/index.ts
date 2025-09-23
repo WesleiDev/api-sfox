@@ -25,6 +25,7 @@ export class AccountMapper {
       accountId: data.account.id,
       amount: Money.fromDollars(data.amount).toCents(),
       operation: data.type,
+      description: data.description,
     };
   }
 
@@ -36,6 +37,7 @@ export class AccountMapper {
       createdAt: transaction.createdAt,
       operation: transaction.operation,
       amount: Money.fromCents(transaction.amount).toDollars(),
+      description: transaction.description,
     };
   }
 }

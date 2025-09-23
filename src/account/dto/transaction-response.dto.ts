@@ -5,4 +5,5 @@ export class TransactionResponseDto {
   createdAt: Date;
   operation: EOperationTypeTransaction;
   amount: number;
+  description: string;
 }

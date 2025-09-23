@@ -3,14 +3,16 @@ import { UserResponseDto } from '@/user/dto';
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AccountService } from '../services/account.service';
-import { DepositDto } from '../dto';
+import { DepositDto, QueryListTransactionsDto, WithdrawDto } from '../dto';
 
 @Controller('account')
 export class AccountController {
@@ -46,7 +48,17 @@ export class AccountController {
   @Post('/withdraw')
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.CREATED)
-  withdraw(@User() user: UserResponseDto, @Body() data: DepositDto) {
+  withdraw(@User() user: UserResponseDto, @Body() data: WithdrawDto) {
     return this.accountService.withdraw(user.id, data);
+  }
+
+  @Get('/transactions')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  transactions(
+    @User() user: UserResponseDto,
+    @Query() query: QueryListTransactionsDto,
+  ) {
+    return this.accountService.listTransactions(user.id, query);
   }
 }

@@ -6,10 +6,12 @@ export interface IPerformeOperation {
   type: EOperationTypeTransaction;
   amount: number;
   account: AccountEntity;
+  description: string;
 }
 
 export interface ICreateTransaction {
   accountId: string;
   amount: number;
   operation: EOperationTypeTransaction;
+  description: string;
 }

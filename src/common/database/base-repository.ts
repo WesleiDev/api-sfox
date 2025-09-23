@@ -5,8 +5,10 @@ import {
   FindOptionsRelations,
   FindOptionsWhere,
   ObjectId,
+  QueryRunner,
   Repository,
   SaveOptions,
+  SelectQueryBuilder,
   UpdateResult,
 } from 'typeorm';
 import { BaseEntity } from './base-entity';
@@ -49,5 +51,12 @@ export class BaseRepository<Entity extends BaseEntity> {
     partialEntity: QueryDeepPartialEntity<Entity>,
   ): Promise<UpdateResult> {
     return this.repo.update(criteria, partialEntity);
+  }
+
+  createQueryBuilder(
+    alias?: string,
+    queryRunner?: QueryRunner,
+  ): SelectQueryBuilder<Entity> {
+    return this.repo.createQueryBuilder(alias, queryRunner);
   }
 }

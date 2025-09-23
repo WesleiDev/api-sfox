@@ -7,7 +7,7 @@ import { AccountEntity, EAccountStatus } from '../entities/account.entity';
 import { AccountRepository } from '../repositories/account.repository';
 import { StringUtils } from '@/common/utils/string.utils';
 import { AccountMapper } from '../mapprs';
-import { DepositDto } from '../dto';
+import { DepositDto, QueryListTransactionsDto } from '../dto';
 import type { IPerformeOperation } from '../interfaces';
 import { EOperationTypeTransaction } from '../etc/types';
 import { TransactionService } from './transaction.service';
@@ -160,6 +160,7 @@ export class AccountService {
       amount: data.amount,
       userId,
       type: EOperationTypeTransaction.INCREMENT,
+      description: data.description,
     });
   }
 
@@ -178,7 +179,12 @@ export class AccountService {
       amount: data.amount,
       userId,
       type: EOperationTypeTransaction.DECREMENT,
+      description: data.description,
     });
+  }
+
+  listTransactions(userId: string, query: QueryListTransactionsDto) {
+    return this.transactionService.list(userId, query);
   }
 
   @Transactional()

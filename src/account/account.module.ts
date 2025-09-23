@@ -8,11 +8,13 @@ import { TransactionRepository } from './repositories/transaction.repository';
 import { TransactionEntity } from './entities/transaction.entity';
 import { TransactionService } from './services/transaction.service';
 import { BankModule } from '@/bank/bank.module';
+import { PaginatorModule } from '@/common/paginator/paginator.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([AccountEntity, TransactionEntity]),
     BankModule,
+    PaginatorModule,
   ],
   providers: [
     AccountService,
