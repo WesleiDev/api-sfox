@@ -1,0 +1,328 @@
+{
+	"info": {
+		"_postman_id": "130a40b2-5f41-4881-97ae-e68ca1d23929",
+		"name": "Sfox",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1518772",
+		"_collection_link": "https://warped-flare-986719.postman.co/workspace/Twism~4cc16c2b-7fd9-48a4-8f8a-6fca71f96d20/collection/1518772-130a40b2-5f41-4881-97ae-e68ca1d23929?action=share&source=collection_link&creator=1518772"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Me",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI0OTQyNWYyLTNjZmUtNDg4YS04NzBjLTViN2ZiNWNkMmM3NCIsImZ1bGxuYW1lIjoiV2VzbGVpIEZlcnJlaXJhIiwiaWF0IjoxNzU4NDcxMDYxLCJleHAiOjE3OTAwMDcwNjF9.k7_DdzZtq1YTw_UDTmEeUjWePHueZJKkhuRa0grlzT8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/user/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"user",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Sign",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mail\": \"weslei.fs@hotmail.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/auth/sign",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"auth",
+								"sign"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Weslei\",\n    \"lastName\": \"Ferreira\",\n    \"password\": \"123456\",\n    \"mail\" :\"weslei.fs@hotmail.com\"\n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/auth/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "Create Account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI0OTQyNWYyLTNjZmUtNDg4YS04NzBjLTViN2ZiNWNkMmM3NCIsImZ1bGxuYW1lIjoiV2VzbGVpIEZlcnJlaXJhIiwiaWF0IjoxNzU4NDcxMDYxLCJleHAiOjE3OTAwMDcwNjF9.k7_DdzZtq1YTw_UDTmEeUjWePHueZJKkhuRa0grlzT8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/account",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"account"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Close Account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI0OTQyNWYyLTNjZmUtNDg4YS04NzBjLTViN2ZiNWNkMmM3NCIsImZ1bGxuYW1lIjoiV2VzbGVpIEZlcnJlaXJhIiwiaWF0IjoxNzU4NDcxMDYxLCJleHAiOjE3OTAwMDcwNjF9.k7_DdzZtq1YTw_UDTmEeUjWePHueZJKkhuRa0grlzT8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/account/close",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"account",
+								"close"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate Account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI0OTQyNWYyLTNjZmUtNDg4YS04NzBjLTViN2ZiNWNkMmM3NCIsImZ1bGxuYW1lIjoiV2VzbGVpIEZlcnJlaXJhIiwiaWF0IjoxNzU4NDcxMDYxLCJleHAiOjE3OTAwMDcwNjF9.k7_DdzZtq1YTw_UDTmEeUjWePHueZJKkhuRa0grlzT8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/account/activate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"account",
+								"activate"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deposit",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQzMmVkZjA3LTI4OTUtNDgwMS1iMTQ2LTYwZmRkYTdiMjNjNyIsImZ1bGxuYW1lIjoiV2VzbGVpIEZlcnJlaXJhIiwiaWF0IjoxNzU4NDk0Nzg3LCJleHAiOjE3OTAwMzA3ODd9.BXOZ1Eb819VU48dg56PP_ueSc_SyFTU8kA8H-f5t_-4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\" : 90,\n    \"description\": \"test description\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/account/deposit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"account",
+								"deposit"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Withdraw",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI0OTQyNWYyLTNjZmUtNDg4YS04NzBjLTViN2ZiNWNkMmM3NCIsImZ1bGxuYW1lIjoiV2VzbGVpIEZlcnJlaXJhIiwiaWF0IjoxNzU4NDcxMDYxLCJleHAiOjE3OTAwMDcwNjF9.k7_DdzZtq1YTw_UDTmEeUjWePHueZJKkhuRa0grlzT8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\" : 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/account/withdraw",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"account",
+								"withdraw"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Transactions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQzMmVkZjA3LTI4OTUtNDgwMS1iMTQ2LTYwZmRkYTdiMjNjNyIsImZ1bGxuYW1lIjoiV2VzbGVpIEZlcnJlaXJhIiwiaWF0IjoxNzU4NDk0Nzg3LCJleHAiOjE3OTAwMzA3ODd9.BXOZ1Eb819VU48dg56PP_ueSc_SyFTU8kA8H-f5t_-4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/account/transactions?order=ASC&limit=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"account",
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "ASC"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

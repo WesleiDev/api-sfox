@@ -14,11 +14,9 @@ A robust and scalable API built with [NestJS](https://nestjs.com/), TypeScript, 
 - [Setup](#setup)
 - [Running the Project](#running-the-project)
 - [Testing](#testing)
-- [Environment Variables](#environment-variables)
 - [Deployment](#deployment)
 - [Resources](#resources)
 - [Support](#support)
-- [Stay in touch](#stay-in-touch)
 - [License](#license)
 
 ---
@@ -109,6 +107,14 @@ migrations/        # Database migrations
 ---
 
 ## Running the Project
+
+`The project will run at port 3001`
+### Documentation
+
+```
+ http://localhost:3001/docs
+```
+
 
 ### Development
 
