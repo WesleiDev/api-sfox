@@ -12,19 +12,34 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AccountService } from '../services/account.service';
-import { DepositDto, QueryListTransactionsDto, WithdrawDto } from '../dto';
+import {
+  AccountResponseDto,
+  DepositDto,
+  QueryListTransactionsDto,
+  TransactionResponseDto,
+  WithdrawDto,
+} from '../dto';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('account')
+@ApiTags('account')
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
   @Post()
+  @ApiResponse({
+    type: AccountResponseDto,
+    status: HttpStatus.CREATED,
+  })
   @UseGuards(AuthGuard('jwt'))
   createAccount(@User() user: UserResponseDto) {
     return this.accountService.create(user.id);
   }
 
   @Post('/close')
+  @ApiResponse({
+    status: HttpStatus.OK,
+  })
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)
   closeAccount(@User() user: UserResponseDto) {
@@ -32,6 +47,9 @@ export class AccountController {
   }
 
   @Post('/activate')
+  @ApiResponse({
+    status: HttpStatus.OK,
+  })
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)
   activateAccount(@User() user: UserResponseDto) {
@@ -39,6 +57,10 @@ export class AccountController {
   }
 
   @Post('/deposit')
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    type: TransactionResponseDto,
+  })
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.CREATED)
   deposit(@User() user: UserResponseDto, @Body() data: DepositDto) {
@@ -46,6 +68,10 @@ export class AccountController {
   }
 
   @Post('/withdraw')
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    type: TransactionResponseDto,
+  })
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.CREATED)
   withdraw(@User() user: UserResponseDto, @Body() data: WithdrawDto) {
@@ -54,6 +80,9 @@ export class AccountController {
 
   @Get('/transactions')
   @UseGuards(AuthGuard('jwt'))
+  @ApiResponse({
+    status: HttpStatus.OK,
+  })
   @HttpCode(HttpStatus.OK)
   transactions(
     @User() user: UserResponseDto,
